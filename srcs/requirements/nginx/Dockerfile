@@ -30,8 +30,7 @@ FROM debian:buster
 WORKDIR /APP
 
 #Copy all current files including folders to the /APP folder in the container
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 # Create website folder 
 RUN mkdir -p / var / www / website
@@ -48,8 +47,8 @@ RUN mkdir /etc/nginx/ssl \
 
 #Configure nginx
 RUN rm -rf /etc/nginx/sites-enabled/default \
-    && cp ./nginx.conf /etc/nginx/sites-available \
-    && ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/ \
+    #&& cp ./nginx.conf /etc/nginx/sites-available \
+    #&& ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/ \
     && chown -R www-data /var/www/* \
     && chmod -R 755 /var/www/*
 
