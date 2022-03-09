@@ -30,7 +30,8 @@ FROM debian:buster
 WORKDIR /APP
 
 #Copy all current files including folders to the /APP folder in the container
-COPY ./conf/* .
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
 
 # Create website folder 
 RUN mkdir -p / var / www / website
@@ -42,8 +43,8 @@ RUN apt-get update \
 
 # Get SSL certification
 RUN mkdir /etc/nginx/ssl \
-&& openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout /etc/nginx/ssl/xuwangkey.key \
-    -out /etc/nginx/ssl/xuwang.csr -subj '/C=FR/ST=69/P=Paris/O=42/CN=tdayde'
+&& openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout /etc/nginx/ssl/mobryckikey.key \
+    -out /etc/nginx/ssl/mobrycki.csr -subj "/C=IT/ST=Rome/L=Rome/O=42/OU=IT/CN=mobrycki/"
 
 #Configure nginx
 RUN rm -rf /etc/nginx/sites-enabled/default \
