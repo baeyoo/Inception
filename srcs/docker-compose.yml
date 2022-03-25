@@ -1,0 +1,58 @@
+version: '3'
+
+networks:
+  localhost:
+    name: inception
+
+services:
+  nginx:
+    build: requirements/nginx/
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - "${HOME}/data/website:/var/www/html"
+    depends_on:
+      - wordpress
+    networks:
+      - localhost
+    restart: always
+
+  wordpress:
+    build: requirements/wordpress/
+    container_name: wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - "${HOME}/data/website:/var/www/html"
+    depends_on:
+      - mariadb
+    networks:
+      - localhost
+    restart: always
+    env_file:
+      - .env
+
+  mariadb:
+    build: requirements/mariadb/
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      - "${HOME}/data/mariadb:/var/lib/mysql"
+    networks:
+      - localhost
+    restart: always
+    env_file:
+      - .env
+volumes:
+  db-data:
+    driver_opts:
+      type: none
+      device: /home/mobrycki/data/db-data
+      o: bind
+  www-data:
+    driver_opts:
+      type: none
+      device: /home/mobrycki/data/www-data
+      o: bind
